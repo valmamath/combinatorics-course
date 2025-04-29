@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Онлайн-курс по комбинаторике</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --primary-dark: #3a56d4;
+            --secondary: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #28a745;
+            --warning: #ffc107;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f7ff;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 1.2rem 0 0.8rem;
+            font-size: 1.4rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .lesson-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .lesson-card .card-body {
+            flex-grow: 1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .theory {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .task {
+            margin: 1.2rem 0;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .task-question {
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+        
+        .answer-input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        
+        .answer-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+        }
+        
+        .feedback {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .incorrect {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: var(--light-gray);
+            border-radius: 3px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 10px;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Онлайн-курс по комбинаторике</h1>
+            <p>Изучайте основы комбинаторики в интерактивном формате</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Шаг 1: Выбор класса -->
+        <div id="step-grade" class="step">
+            <h2>Выберите ваш класс</h2>
+            <div class="grid">
+                <div class="card lesson-card" onclick="selectGrade('5-6')">
+                    <div class="card-body">
+                        <h3>5-6 класс</h3>
+                        <p>Основы комбинаторики: правило суммы и произведения, перестановки, сочетания</p>
+                    </div>
+                </div>
+                <div class="card lesson-card" onclick="selectGrade('7-9')">
+                    <div class="card-body">
+                        <h3>7-9 класс</h3>
+                        <p>Более сложные задачи, перестановки с повторениями, графы</p>
+                    </div>
+                </div>
+                <div class="card lesson-card" onclick="selectGrade('10-11')">
+                    <div class="card-body">
+                        <h3>10-11 класс</h3>
+                        <p>Рекуррентные соотношения, теория вероятностей, олимпиадные задачи</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Шаг 2: Выбор урока -->
+        <div id="step-lesson" class="step hidden">
+            <button class="btn btn-secondary" onclick="backToStep('grade')">← Назад к выбору класса</button>
+            <h2 id="grade-title"></h2>
+            <div class="grid" id="lessons-container">
+                <!-- Уроки будут добавлены динамически -->
+            </div>
+        </div>
+        
+        <!-- Шаг 3: Выбор теории или заданий -->
+        <div id="step-content" class="step hidden">
+            <button class="btn btn-secondary" onclick="backToStep('lesson')">← Назад к урокам</button>
+            <h2 id="lesson-title"></h2>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <div class="btn-group" style="margin: 1rem 0;">
+                <button class="btn btn-outline" id="btn-theory" onclick="showTheory()">Теория</button>
+                <button class="btn btn-outline" id="btn-tasks" onclick="showTasks()">Задания</button>
+            </div>
+            
+            <div id="theory-content" class="hidden">
+                <div class="theory" id="theory-text">
+                    <!-- Теория будет добавлена динамически -->
+                </div>
+                <div class="navigation">
+                    <button class="btn" onclick="showTasks()">Перейти к заданиям →</button>
+                </div>
+            </div>
+            
+            <div id="tasks-content" class="hidden">
+                <div id="tasks-container">
+                    <!-- Задания будут добавлены динамически -->
+                </div>
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="showTheory()">← Вернуться к теории</button>
+                    <button class="btn" id="next-lesson-btn" style="display: none;" onclick="nextLesson()">Следующий урок →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Данные курса
+        const courseData = {
+            '5-6': {
+                title: 'Комбинаторика для 5-6 класса',
+                lessons: [
+                    {
+                        title: 'Урок 1. Правило суммы и произведения',
+                        theory: `<p><strong>Правило суммы:</strong> если объект можно выбрать <code>m</code> способами, а другой объект — <code>n</code> способами, то выбор «или А, или Б» имеет <code>m + n</code> вариантов.</p>
+                                <p><strong>Правило произведения:</strong> если нужно выбрать и А, и Б, количество вариантов — <code>m × n</code>.</p>`,
+                        tasks: [
+                            {
+                                question: 'В кафе есть 3 вида пирожных и 2 вида мороженого. Сколько вариантов десерта из одного изделия?',
+                                answer: '5',
+                                explanation: ' (пирожных) +  (мороженых) = '
+                            },
+                            {
+                                question: 'У Маши 4 юбки и 5 блузок. Сколько разных комплектов она может составить?',
+                                answer: '20',
+                                explanation: ' ×  = '
+                            },
+                            {
+                                question: 'В магазине продают 5 видов шоколада и 3 вида печенья. Сколько вариантов купить 1 сладость?',
+                                answer: '8',
+                                explanation: ' +  = '
+                            },
+                            {
+                                question: 'Сколько двузначных чисел можно составить из цифр 1, 2, 3, если цифры не повторяются?',
+                                answer: '6',
+                                explanation: ' ×  =  '
+                            },
+                            {
+                                question: 'В классе 7 мальчиков и 8 девочек. Сколькими способами можно выбрать одного дежурного?',
+                                answer: '15',
+                                explanation: ' +  = '
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Урок 2. Перестановки',
+                        theory: `<p><strong>Перестановка</strong> — это расположение элементов в определённом порядке.</p>
+                                <p>Число перестановок <code>n</code> различных объектов: <code>n! = 1 × 2 × ... × n</code>.</p>`,
+                        tasks: [
+                            {
+                                question: 'Сколькими способами можно расставить на полке 3 книги?',
+                                answer: '6',
+                                explanation: '! = '
+                            },
+                            {
+                                question: 'Сколько вариантов рассадить 4 друзей за столом?',
+                                answer: '24',
+                                explanation: '! = '
+                            },
+                            {
+                                question: 'Сколько анаграмм у слова «кот»?',
+                                answer: '6',
+                                explanation: '! =  (кот, кто.....)'
+                            },
+                            {
+                                question: 'В семье 5 человек. Сколько способов встать в очередь за мороженым?',
+                                answer: '120',
+                                explanation: '! = '
+                            },
+                            {
+                                question: 'Сколько перестановок у букв в слове «мир»?',
+                                answer: '6',
+                                explanation: '! = '
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Урок 3. Размещения и сочетания',
+                        theory: `<p><strong>Размещения</strong> — выборки, где важен порядок (например, 12 ≠ 21).</p>
+                                <p><strong>Сочетания</strong> — выборки, где порядок не важен (команда из 2 человек).</p>`,
+                        tasks: [
+                            {
+                                question: 'Сколько двузначных чисел можно составить из цифр 1, 2, 3?',
+                                answer: '6',
+                                explanation: ' ×  =  (12, 13, 21, 23, 31, 32)'
+                            },
+                            {
+                                question: 'Сколько команд из 2 человек можно создать из 4 друзей?',
+                                answer: '6',
+                                explanation: 'C(4,2) = '
+                            },
+                            {
+                                question: 'Даны цифры 1, 2, 3, 4. Сколько трёхзначных чисел без повторов цифр?',
+                                answer: '24',
+                                explanation: ' ×  ×  = 24'
+                            },
+                            {
+                                question: 'В классе 10 человек. Сколько пар дежурных можно выбрать?',
+                                answer: '45',
+                                explanation: 'C(10,2) = '
+                            },
+                            {
+                                question: 'Сколько способов выбрать 3 книги из 5?',
+                                answer: '10',
+                                explanation: 'C(5,3) = '
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Урок 4. Принцип Дирихле',
+                        theory: `<p><strong>Принцип Дирихле:</strong> если <code>n</code> кроликов рассадить в <code>m</code> клеток, то хотя бы в одной клетке будет не менее <code>⌈n/m⌉</code> кроликов.</p>`,
+                        tasks: [
+                            {
+                                question: 'В классе 13 учеников. Докажи, что хотя бы у двух день рождения в одном месяце.',
+                                answer: '13 > 12',
+                                explanation: ' >  месяцев ⇒ '
+                            },
+                            {
+                                question: 'В коробке 4 красных и 5 синих шаров. Сколько нужно вынуть шаров, чтобы было 2 одного цвета?',
+                                answer: '3',
+                                explanation: '(по принципу Дирихле)'
+                            },
+                            {
+                                question: 'В стаде 7 овец и 5 загончиков. Докажи, что хотя бы в одном загоне ≥2 овец.',
+                                answer: '7 > 5',
+                                explanation: ' >  ⇒ '
+                            },
+                            {
+                                question: 'У Пети 6 носков (3 чёрных, 3 белых). Сколько нужно вынуть, чтобы гарантированно получить пару?',
+                                answer: '3',
+                                explanation: ' (возможны чёрных +  белый)'
+                            },
+                            {
+                                question: 'В школе 400 учеников. Докажи, что хотя бы двое родились в один день года.',
+                                answer: '400 > 366',
+                                explanation: ' >  ⇒ совпадение гарантировано'
+                            }
+                        ]
+                    }
+                ]
+            },
+            '7-9': {
+                title: 'Комбинаторика для 7-9 класса',
+                lessons: [
+                    {
+                        title: 'Урок 1. Правило суммы и произведения',
+                        theory: `<p>Для сложных задач комбинируем оба правила.</p>`,
+                        tasks: [
+                            {
+                                question: 'Сколько трёхзначных чисел чётные?',
+                                answer: '450',
+                                explanation: ' ×  ×  = '
+                            },
+                            {
+                                question: 'В меню 3 супа, 5 вторых блюд и 4 десерта. Сколько вариантов обеда из трёх блюд?',
+                                answer: '60',
+                                explanation: ' ×  ×  = '
+                            },
+                            {
+                                question: 'Сколько существует способов пройти из A в C через B, если путей A→B — 3, а B→C — 4?',
+                                answer: '12',
+                                explanation: ' × = '
+                            },
+                            {
+                                question: 'Сколько четырёхбуквенных слов можно составить из букв A, B, C (буквы могут повторяться)?',
+                                answer: '81',
+                                explanation: '⁴ = '
+                            },
+                            {
+                                question: 'В турнире участвуют 7 шахматистов. Каждый играет с каждым 1 раз. Сколько всего партий?',
+                                answer: '21',
+                                explanation: 'C(7,2) = '
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Урок 2. Перестановки с повторениями',
+                        theory: `<p>Если есть повторяющиеся элементы, число перестановок: <code>n! / (k₁! × k₂! × ...)</code>.</p>`,
+                        tasks: [
+                            {
+                                question: 'Сколько анаграмм у слова «мама»?',
+                                answer: '6',
+                                explanation: '! / (! × !) = '
+                            },
+                            {
+                                question: 'Сколько способов расставить 3 красных и 2 синих шара в ряд?',
+                                answer: '10',
+                                explanation: '! / (! × !) = '
+                            },
+                            {
+                                question: 'Сколько перестановок у букв в слове «комбинаторика»?',
+                                answer: '29937600',
+                                explanation: '! / (! × ! × !) = 29 937 600'
+                            },
+                            {
+                                question: 'Сколько способов разложить 5 монет (2 рубля, 3 пятака) в ряд?',
+                                answer: '10',
+                                explanation: '! / (! × !) = '
+                            },
+                            {
+                                question: 'Сколько анаграмм у слова «теория»?',
+                                answer: '360',
+                                explanation: '! / ! =  (так как «е» и «о» повторяются)'
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Урок 3. Графы и Эйлеровы пути',
+                        theory: `<p><strong>Эйлеров путь</strong> — маршрут, проходящий по всем рёбрам графа ровно 1 раз.</p>`,
+                        tasks: [
+                            {
+                                question: 'Какая фигура с 3 вершинами, где есть Эйлеров путь.',
+                                answer: 'треугольник',
+                                explanation: '3 ребра АB, BC, CA'
+                            },
+                            {
+                                question: 'Можно ли пройти по всем мостам Кёнигсберга, не повторяясь?',
+                                answer: 'нет',
+                                explanation: 'Подумай о четности степеней'
+                            },
+                            {
+                                question: 'Сколько рёбер у полного графа с 5 вершинами?',
+                                answer: '10',
+                                explanation: 'C(5,2) ='
+                            },
+                            {
+                                question: 'Построй граф, где степени вершин: 2, 2, 3, 1. Что это будет за граф?',
+                                answer: 'цепочка',
+                                explanation: 'Например,  A–B–C–D с дополнительным ребром B–C'
+                            },
+                            {
+                                question: 'В графе 6 вершин, каждая имеет степень 3. Сколько рёбер?',
+                                answer: '9',
+                                explanation: '( × ) /  = '
+                            }
+                        ]
+                    }
+                ]
+            },
+            '10-11': {
+                title: 'Комбинаторика для 10-11 класса',
+                lessons: [
+                    {
+                        title: 'Урок 1. Рекуррентные соотношения',
+                        theory: `<p><strong>Числа Фибоначчи:</strong> F(n) = F(n-1) + F(n-2), F(1)=1, F(2)=1.</p>`,
+                        tasks: [
+                            {
+                                question: 'Найди F(5) для последовательности Фибоначчи.',
+                                answer: '5',
+                                explanation: ' (1, 1, 2, 3, 5)'
+                            },
+                            {
+                                question: 'Сколькими способами можно подняться на 5-ю ступеньку, шагая на 1 или 2 ступеньки?',
+                                answer: '8',
+                                explanation: '(F(5))'
+                            },
+                            {
+                                question: 'Реши рекуррентное соотношение: aₙ = 2aₙ₋₁, a₁ = 3.',
+                                answer: '3 × 2 в степени n-1',
+                                explanation: 'aₙ = ... в степени n-1'
+                            },
+                            {
+                                question: 'Найди число способов разбить строку «ABCD» на подстроки длиной 1 или 2.',
+                                answer: '5',
+                                explanation: ' (аналогично ступенькам)'
+                            },
+                            {
+                                question: 'Дано: aₙ = aₙ₋₁ + n, a₁ = 1. Найди a₄.',
+                                answer: '10',
+                                explanation: ' +  +  +  = 10'
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Урок 2. Комбинаторика в теории вероятностей',
+                        theory: `<p><strong>Вероятность</strong> = (число благоприятных исходов) / (общее число исходов).</p>`,
+                        tasks: [
+                            {
+                                question: 'Какова вероятность вытянуть туза из колоды 36 карт?',
+                                answer: '1/9',
+                                explanation: '/ = / не забудь сократить дробь'
+                            },
+                            {
+                                question: 'В группе 10 девушек и 15 юношей. Какова вероятность выбрать 2 девушек?',
+                                answer: '3/20',
+                                explanation: 'C(10,2) / C(25,2) = /  = /'
+                            },
+                            {
+                                question: 'Монету бросают 3 раза. Какова вероятность выпадения 2 орлов?',
+                                answer: '3/8',
+                                explanation: 'C(3,2) / 2³ = / запиши ответ в виде обыкновенной дроби'
+                            },
+                            {
+                                question: 'В урне 5 белых и 7 чёрных шаров. Найди вероятность вынуть 1 белый и 1 чёрный.',
+                                answer: '35/66',
+                                explanation: '(5 × 7) / C(12,2) = '
+                            },
+                            {
+                                question: 'Сколько есть способов разложить 4 разных подарка между 6 детьми?',
+                                answer: '1296',
+                                explanation: '⁴ = '
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Урок 3. Олимпиадные задачи',
+                        theory: `<p>Использование инвариантов, раскрасок и симметрии.</p>`,
+                        tasks: [
+                            {
+                                question: 'Докажи, что в любом графе есть две вершины с одинаковой степенью. Какой принцип нужно использовать?',
+                                answer: 'принцип дирихле',
+                                explanation: 'если возникли вопросы, приходи на урок :)'
+                            },
+                            {
+                                question: 'Можно ли раскрасить граф в 2 цвета так, чтобы соседние вершины были разными?',
+                                answer: 'да',
+                                explanation: 'если возникли вопросы, приходи на урок :)'
+                            },
+                            {
+                                question: 'На шахматной доске удалили две противоположные угловые клетки. Можно ли покрыть её костями домино 1×2?',
+                                answer: 'нет',
+                                explanation: 'если возникли вопросы, приходи на урок '
+                            },
+                            {
+                                question: 'Докажи, что среди любых 6 человек есть 3 знакомых или 3 незнакомых.',
+                                answer: 'принцип дирихле',
+                                explanation: 'если возникли вопросы, приходи на урок '
+                            },
+                            {
+                                question: 'Найди число путей из A в B в решётке 3×3, двигаясь только вправо и вверх.',
+                                answer: '20',
+                                explanation: 'если возникли вопросы, приходи на урок '
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Текущее состояние
+        let currentState = {
+            grade: null,
+            lessonIndex: null,
+            completedTasks: 0,
+            totalTasks: 0
+        };
+
+        // DOM элементы
+        const stepGrade = document.getElementById('step-grade');
+        const stepLesson = document.getElementById('step-lesson');
+        const stepContent = document.getElementById('step-content');
+        const gradeTitle = document.getElementById('grade-title');
+        const lessonsContainer = document.getElementById('lessons-container');
+        const lessonTitle = document.getElementById('lesson-title');
+        const theoryContent = document.getElementById('theory-content');
+        const tasksContent = document.getElementById('tasks-content');
+        const theoryText = document.getElementById('theory-text');
+        const tasksContainer = document.getElementById('tasks-container');
+        const progressBar = document.getElementById('progress-bar');
+        const nextLessonBtn = document.getElementById('next-lesson-btn');
+
+        // Выбор класса
+        function selectGrade(grade) {
+            currentState.grade = grade;
+            gradeTitle.textContent = courseData[grade].title;
+            
+            // Очищаем контейнер уроков
+            lessonsContainer.innerHTML = '';
+            
+            // Добавляем уроки
+            courseData[grade].lessons.forEach((lesson, index) => {
+                const lessonCard = document.createElement('div');
+                lessonCard.className = 'card lesson-card';
+                lessonCard.innerHTML = `
+                    <div class="card-body">
+                        <h3>${lesson.title}</h3>
+                        <p>${lesson.theory.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>
+                    </div>
+                `;
+                lessonCard.addEventListener('click', () => selectLesson(index));
+                lessonsContainer.appendChild(lessonCard);
+            });
+            
+            // Показываем шаг с уроками
+            stepGrade.classList.add('hidden');
+            stepLesson.classList.remove('hidden');
+        }
+
+        // Выбор урока
+        function selectLesson(index) {
+            currentState.lessonIndex = index;
+            const lesson = courseData[currentState.grade].lessons[index];
+            lessonTitle.textContent = lesson.title;
+            theoryText.innerHTML = lesson.theory;
+            
+            // Очищаем контейнер заданий
+            tasksContainer.innerHTML = '';
+            
+            // Добавляем задания
+            currentState.totalTasks = lesson.tasks.length;
+            currentState.completedTasks = 0;
+            
+            lesson.tasks.forEach((task, taskIndex) => {
+                const taskElement = document.createElement('div');
+                taskElement.className = 'task';
+                taskElement.innerHTML = `
+                    <div class="task-question">${taskIndex + 1}. ${task.question}</div>
+                    <input type="text" class="answer-input" placeholder="Ваш ответ" data-task-index="${taskIndex}">
+                    <button class="btn btn-success" onclick="checkAnswer(this, ${taskIndex})">Проверить</button>
+                    <div class="feedback hidden" id="feedback-${taskIndex}"></div>
+                `;
+                tasksContainer.appendChild(taskElement);
+            });
+            
+            // Обновляем прогресс
+            updateProgress();
+            
+            // Показываем шаг с контентом
+            stepLesson.classList.add('hidden');
+            stepContent.classList.remove('hidden');
+            showTheory();
+        }
+
+        // Проверка ответа
+        function checkAnswer(button, taskIndex) {
+            const input = button.previousElementSibling;
+            const feedback = document.getElementById(`feedback-${taskIndex}`);
+            const task = courseData[currentState.grade].lessons[currentState.lessonIndex].tasks[taskIndex];
+            
+            // Нормализуем ответ (удаляем пробелы, приводим к нижнему регистру)
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = task.answer.toLowerCase();
+            
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = `✅ Верно! ${task.explanation}`;
+                feedback.className = 'feedback correct';
+                feedback.style.display = 'block';
+                input.disabled = true;
+                button.disabled = true;
+                
+                // Увеличиваем счетчик выполненных заданий
+                if (!input.dataset.checked) {
+                    currentState.completedTasks++;
+                    updateProgress();
+                    input.dataset.checked = 'true';
+                }
+            } else {
+                feedback.textContent = `❌ Неверно. Попробуйте еще раз. Подсказка: ${task.explanation}`;
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+            }
+        }
+
+        // Обновление прогресс-бара
+        function updateProgress() {
+            const progress = (currentState.completedTasks / currentState.totalTasks) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Показываем кнопку "Следующий урок", если все задания выполнены
+            if (currentState.completedTasks === currentState.totalTasks) {
+                nextLessonBtn.style.display = 'block';
+            } else {
+                nextLessonBtn.style.display = 'none';
+            }
+        }
+
+        // Показать теорию
+        function showTheory() {
+            theoryContent.classList.remove('hidden');
+            tasksContent.classList.add('hidden');
+            document.getElementById('btn-theory').classList.remove('btn-outline');
+            document.getElementById('btn-theory').classList.add('btn');
+            document.getElementById('btn-tasks').classList.remove('btn');
+            document.getElementById('btn-tasks').classList.add('btn-outline');
+        }
+
+        // Показать задания
+        function showTasks() {
+            theoryContent.classList.add('hidden');
+            tasksContent.classList.remove('hidden');
+            document.getElementById('btn-theory').classList.remove('btn');
+            document.getElementById('btn-theory').classList.add('btn-outline');
+            document.getElementById('btn-tasks').classList.remove('btn-outline');
+            document.getElementById('btn-tasks').classList.add('btn');
+        }
+
+        // Следующий урок
+        function nextLesson() {
+            const nextIndex = currentState.lessonIndex + 1;
+            if (nextIndex < courseData[currentState.grade].lessons.length) {
+                selectLesson(nextIndex);
+            } else {
+                // Если уроки закончились, возвращаем к выбору класса
+                backToStep('grade');
+            }
+        }
+
+        // Назад к предыдущему шагу
+        function backToStep(step) {
+            stepContent.classList.add('hidden');
+            stepLesson.classList.add('hidden');
+            stepGrade.classList.add('hidden');
+            
+            if (step === 'grade') {
+                stepGrade.classList.remove('hidden');
+            } else if (step === 'lesson') {
+                stepLesson.classList.remove('hidden');
+            }
+        }
+
+        // Глобальные функции для использования в HTML
+        window.selectGrade = selectGrade;
+        window.selectLesson = selectLesson;
+        window.checkAnswer = checkAnswer;
+        window.showTheory = showTheory;
+        window.showTasks = showTasks;
+        window.nextLesson = nextLesson;
+        window.backToStep = backToStep;
+    </script>
+</body>
+</html>
