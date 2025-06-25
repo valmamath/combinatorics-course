@@ -1009,47 +1009,60 @@
                     },
                     {
                         title: 'Урок 2. Комбинаторика в теории вероятностей',
-                         theory: `<div class="theory-content">
+                        theory: `<div class="theory-content">
         <h3>Классическое определение вероятности</h3>
         
-        <div class="formula highlight">
-            <p>Если все элементарные исходы случайного эксперимента равновероятны и их конечное число (n), то вероятность события A вычисляется по формуле:</p>
-            <p>\[ P(A) = \frac{k}{n} \]</p>
-            <p>где:<br>
-            k - количество благоприятных исходов<br>
+        <div class="formula">
+            <p>Если все элементарные исходы равновероятны и их конечное число, то:</p>
+            <p>Вероятность P(A) = <span class="frac"><span>k</span><span>n</span></span></p>
+            <p>где: <br>
+            k - число благоприятных исходов<br>
             n - общее число возможных исходов</p>
         </div>
 
         <div class="example">
-            <p>Таким образом, задача теории вероятностей сводится к комбинаторной задаче: нужно посчитать количество благоприятных исходов и общее количество исходов.</p>
+            <p>Таким образом, задача сводится к комбинаторному подсчёту исходов.</p>
         </div>
 
         <h4>Пример задачи</h4>
         <div class="task">
-            <p class="task-question">В группе туристов 12 человек. С помощью жребия выбирают 3 человек для похода в магазин. Какова вероятность, что конкретный турист Д. будет выбран?</p>
+            <p>В группе 12 туристов выбирают 3 человек. Какова вероятность, что конкретный турист Д. будет выбран?</p>
             
-            <div class="formula">
+            <div class="solution">
                 <p><strong>Решение:</strong></p>
                 <p>1. Число благоприятных исходов (когда Д. выбран):</p>
-                <p>\[ C(11,2) = \frac{11 \cdot 10}{2!} = 55 \]</p>
-                <p>(выбираем 2 спутника для Д. из оставшихся 11)</p>
+                <p>C<sub>11</sub><sup>2</sup> = <span class="frac"><span>11 × 10</span><span>2</span></span> = 55</p>
+                <p class="hint">(выбираем 2 спутника для Д. из оставшихся 11)</p>
                 
                 <p>2. Общее число исходов:</p>
-                <p>\[ C(12,3) = \frac{12 \cdot 11 \cdot 10}{3!} = 220 \]</p>
+                <p>C<sub>12</sub><sup>3</sup> = <span class="frac"><span>12 × 11 × 10</span><span>6</span></span> = 220</p>
                 
                 <p>3. Искомая вероятность:</p>
-                <p>\[ P = \frac{55}{220} = 0.25 \]</p>
+                <p>P = <span class="frac"><span>55</span><span>220</span></span> = 0.25</p>
             </div>
         </div>
 
-        <div class="formula">
-            <p><strong>Общий подход к решению:</strong></p>
-            <ol>
-                <li>Определить общее число равновероятных исходов (n)</li>
-                <li>Найти число благоприятных исходов (k)</li>
-                <li>Вычислить вероятность как отношение P = k/n</li>
-            </ol>
-        </div>
+        <style>
+            .frac {
+                display: inline-block;
+                position: relative;
+                vertical-align: middle;
+                letter-spacing: 0.001em;
+                text-align: center;
+            }
+            .frac > span {
+                display: block;
+                padding: 0.1em;
+            }
+            .frac span:first-child {
+                border-bottom: 1px solid;
+            }
+            .hint {
+                font-size: 0.9em;
+                color: #666;
+                font-style: italic;
+            }
+        </style>
     </div>`,
                         tasks: [
                             {
